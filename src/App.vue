@@ -1,17 +1,19 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <div>
+      <h1>Directory Tree View for Botpress</h1>
+    </div>
+    <TreeView />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import HelloWorld from './components/HelloWorld.vue'
+import TreeView from './components/TreeView.vue'
 
 @Component({
   components: {
-    HelloWorld
+    TreeView
   }
 })
 export default class App extends Vue {}
@@ -23,7 +25,13 @@ export default class App extends Vue {}
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: white;
+  opacity: 60%;
+
+  margin-top: 10px;
+}
+
+body {
+background-color: #332940;
 }
 </style>
