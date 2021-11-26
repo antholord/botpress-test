@@ -15,22 +15,25 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { TreeItem } from '../models/tree'
+import { DirectoryItem } from '../models/directory'
 
 @Component
 export default class PathTreeView extends Vue {
     @Prop(String) readonly rootPath!: string
 
-    treeItems: TreeItem[] = []
+    treeItems: DirectoryItem[] = []
     created (): void {
-      this.$electron.ipcRenderer.on('files-changed', (_, path, newTree: TreeItem) => {
-        if (path === this.rootPath) {
+      this.$electron.ipcRenderer.on('files-changed', (_, path, newTree: DirectoryItem) => {
+        if (path === this.rootPath && newTree) {
           this.treeItems = [newTree]
         }
       })
-      this.$electron.ipcRenderer.invoke('get-files', this.rootPath).then((result: TreeItem) => {
-        this.treeItems = [result]
-      })
+      this.$electron.ipcRenderer.invoke('get-files', this.rootPath)
+        .then((directoryTree: DirectoryItem) => {
+          if (directoryTree) {
+            this.treeItems = [directoryTree]
+          }
+        })
     }
 }
 </script>

@@ -2,7 +2,6 @@
   <v-app>
     <v-app-bar app>
       <v-toolbar-title>Botpress File Explorer</v-toolbar-title>
-
     </v-app-bar>
     <v-main>
       <v-container>
@@ -21,10 +20,6 @@ export default Vue.extend({
 
   components: {
     TreeView
-  },
-
-  created (): void {
-    this.$vuetify.theme.dark = true
   }
 })
 </script>

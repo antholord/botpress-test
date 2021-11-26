@@ -1,13 +1,15 @@
-import chokidar, { FSWatcher } from 'chokidar'
+import chokidar from 'chokidar'
 import { BrowserWindow, ipcMain } from 'electron'
 import dirTree from 'directory-tree'
 import _ from 'lodash'
 
-const watchers: Record<string, FSWatcher> = {}
-
 const getDirectoryTree = (path: string) => dirTree(path, { normalizePath: true, attributes: ['type'] })
 
-const setupEvents = (paths: string[]) : void => {
+export const SetupEvents = () : void => {
+  const pathParams = process.argv.slice(2)
+  // If no path arguments were provided, send null to the client so it can display errors
+  const paths = pathParams.length > 0 ? pathParams : null
+
   ipcMain.on('get-paths', (e) => {
     e.returnValue = paths
   })
@@ -18,21 +20,17 @@ const setupEvents = (paths: string[]) : void => {
 
 export const ProcessDirectories = (window: BrowserWindow): void => {
   const paths = process.argv.slice(2)
-  setupEvents(paths)
   for (const path of paths) {
     const watcher = chokidar.watch(path)
 
     watcher.on('ready', () => {
-      watchers[path] = watcher
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      watcher.on('all', _.debounce((event: any, path: string) => {
+      watcher.on('all', _.debounce((_: unknown, path: string) => {
         window.webContents.send('files-changed', path, getDirectoryTree(path))
       }, 100))
     })
-
+    // todo: remove
     setInterval(() => {
       window.webContents.send('files-changed', path, getDirectoryTree(path))
     }, 4000)
   }
 }
-console.log(process.argv)
