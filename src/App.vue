@@ -1,37 +1,36 @@
 <template>
-  <div id="app">
-    <div>
-      <h1>Directory Tree View for Botpress</h1>
-    </div>
-    <TreeView />
-  </div>
+  <v-app>
+    <v-app-bar app>
+      <v-toolbar-title>Botpress File Explorer</v-toolbar-title>
+
+    </v-app-bar>
+    <v-main>
+      <v-container>
+        <tree-view/>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import Vue from 'vue'
 import TreeView from './components/TreeView.vue'
 
-@Component({
+export default Vue.extend({
+  name: 'App',
+
   components: {
     TreeView
+  },
+
+  created (): void {
+    this.$vuetify.theme.dark = true
   }
 })
-export default class App extends Vue {}
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: white;
-  opacity: 60%;
-
-  margin-top: 10px;
-}
-
-body {
-background-color: #332940;
+.theme--dark.v-application {
+  background: #2d2a2e !important
 }
 </style>

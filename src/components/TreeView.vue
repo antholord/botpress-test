@@ -1,9 +1,10 @@
 <template>
-<div>
-  <h2 v-if="paths.length === 0">Loading directories...</h2>
-  <div v-else v-for="path in paths" :key="path">
-    <path-tree-view :rootPath="path"></path-tree-view>
-  </div>
+  <div class="container">
+    <h2 v-if="paths.length === 0">Loading directories...</h2>
+    <div v-else v-for="path in paths" :key="path">
+      <path-tree-view :rootPath="path"></path-tree-view>
+      <v-spacer v-if="paths.length > 1"></v-spacer>
+    </div>
 </div>
 
 </template>
@@ -20,6 +21,7 @@ import PathTreeView from './PathTreeView.vue'
 export default class TreeView extends Vue {
   paths: string[] = []
   mounted (): void {
+    // this is not ideal but it's a way to wait until the backend is ready to get the paths
     const loadPaths = setInterval(() => {
       this.paths = this.$electron.ipcRenderer.sendSync('get-paths') ?? []
       if (this.paths.length > 0) clearInterval(loadPaths)
@@ -28,20 +30,12 @@ export default class TreeView extends Vue {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+h2 {
+  margin: 40px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+
+.container {
+  overflow: auto
 }
 </style>

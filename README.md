@@ -2,33 +2,12 @@
 
 ## Project setup
 ```
-yarn install
+npm i
 ```
 
-### Compiles and hot-reloads for development
+## Run with electron
 ```
-yarn serve
+npm run electron:serve ./testDirectory
 ```
+You can put multiple directories back to back as arguments. I added a simple testDirectory in the project for demonstration.
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Run your unit tests
-```
-yarn test:unit
-```
-
-### Run your end-to-end tests
-```
-yarn test:e2e
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
