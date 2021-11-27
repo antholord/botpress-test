@@ -19,6 +19,7 @@
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-electron": "^1.0.6",
+    "vue-nonreactive": "^0.1.0",
     "vue-property-decorator": "^9.1.2",
     "vuejs-tree": "^3.0.1",
     "vuetify": "^2.4.0"
@@ -64,7 +65,10 @@
     "parserOptions": {
       "ecmaVersion": 2020
     },
-    "rules": {},
+    "rules": {
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-non-null-assertion": "off"
+    },
     "overrides": [
       {
         "files": [

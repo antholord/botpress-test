@@ -8,11 +8,10 @@ For the backend part, all of my code is in ``` directoryService.ts ``` . All of 
 
 
 
-I used ``` chokidar ``` to track file changes in the directories. However, the format it gave me was not useful to generate a tree. I decided to use a library that transformed it into the perfect format, ``` directory-tree ```
+I used ``` chokidar ``` to track file changes in the directories. I used  ``` directory-tree ``` to transform the directory info into a readable directory format.
 
-I could have formatted the tree myself by going through the list of files recursively and creating arrays of children, but I opted for a library.
+For folders containing more than 10 000 files, the update took about 1 second.
 
-The downside of my approach is that when a file is modified, I have to re-compute the full directory tree. I am aware that it is not ideal but after testing, it was quite fast and sufficient. If I built the directory tree structure myself, I could have sent only the updated path when a change occurs.
 
 ## Project setup
 ```
@@ -21,7 +20,14 @@ npm i
 
 ## Run with electron
 ```
-npm run electron:serve ./testDirectory
+npm run serve ./testDirectory
 ```
 You can put multiple directories back to back as arguments. I added a simple testDirectory in the project for demonstration.
+
+## Run as a stand-alone application
+```
+npm run build
+launch ./dist_electron/botpress-test.exe
+or install it by launching ./dist_electron/botpress-test Setup 0.1.0.exe
+```
 

@@ -2,6 +2,8 @@
   <v-app>
     <v-app-bar app>
       <v-toolbar-title>Botpress File Explorer</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <h3 v-if="!isBackendReady">Loading Watchers...</h3>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -20,6 +22,16 @@ export default Vue.extend({
 
   components: {
     TreeView
+  },
+  data () {
+    return {
+      isBackendReady: false
+    }
+  },
+  created () {
+    this.$electron.ipcRenderer.on('watcher-ready', () => {
+      this.isBackendReady = true
+    })
   }
 })
 </script>

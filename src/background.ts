@@ -58,6 +58,7 @@ app.on('activate', () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
   SetupEvents()
+
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {
@@ -67,6 +68,7 @@ app.on('ready', async () => {
     }
   }
   const window = await createWindow()
+
   ProcessDirectories(window)
 })
 
