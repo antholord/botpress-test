@@ -1,6 +1,8 @@
 module.exports = {
-  externals: {
-    fsevents: "require('fsevents')"
+  configureWebpack: {
+    externals: {
+      fsevents: "require('fsevents')"
+    }
   },
   pluginOptions: {
     electronBuilder: {
