@@ -1,4 +1,7 @@
 module.exports = {
+  externals: {
+    fsevents: "require('fsevents')"
+  },
   pluginOptions: {
     electronBuilder: {
       nodeIntegration: true,
