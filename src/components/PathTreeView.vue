@@ -39,7 +39,7 @@ export default class PathTreeView extends Vue {
           }
         }
       })
-      this.$electron.ipcRenderer.invoke('get-files-in-directory', this.rootPath)
+      this.$electron.ipcRenderer.invoke('get-files-in-directory', this.rootPath, this.rootPath)
         .then((directoryTree: DirectoryItem[]) => {
           if (directoryTree) {
             this.treeItems = [{ path: this.rootPath, name: this.rootPath, type: 'directory', children: directoryTree }]
@@ -51,7 +51,7 @@ export default class PathTreeView extends Vue {
     }
 
     async loadChildren (item: DirectoryItem) : Promise<void> {
-      return this.$electron.ipcRenderer.invoke('get-files-in-directory', item.path).then((directoryItems: DirectoryItem[]) => {
+      return this.$electron.ipcRenderer.invoke('get-files-in-directory', this.rootPath, item.path).then((directoryItems: DirectoryItem[]) => {
         if (item.children && directoryItems && directoryItems.length > 0) {
           item.children.push(...directoryItems)
         }

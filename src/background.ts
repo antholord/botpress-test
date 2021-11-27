@@ -3,9 +3,10 @@
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-import { ProcessDirectories, SetupEvents } from './directoryService'
+import { SetupEvents } from './directoryService'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
+export let window: BrowserWindow | null = null
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -17,11 +18,9 @@ async function createWindow (): Promise<BrowserWindow> {
     width: 800,
     height: 600,
     webPreferences: {
-
-      // Use pluginOptions.nodeIntegration, leave this alone
-      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: (process.env
-        .ELECTRON_NODE_INTEGRATION as unknown) as boolean,
+      zoomFactor: 0.85,
+      nodeIntegration: true,
+      enableRemoteModule: true,
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
     }
   })
@@ -67,9 +66,7 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
-  const window = await createWindow()
-
-  ProcessDirectories(window)
+  window = await createWindow()
 })
 
 // Exit cleanly on request from parent process in development mode.
