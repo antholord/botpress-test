@@ -10,7 +10,7 @@ For the backend part, all of my code is in ``` directoryService.ts ```.
 I used ``` chokidar ``` to track file changes in the directories.
 The tool only watches for file changes in the directories currently open, so performance is great even for very large directories.
 
-I added a feature to add one or more folders with a button.
+I also added a feature to add one or more folders with a button.
 
 ## Project setup
 ```
@@ -20,6 +20,9 @@ npm i
 ## Run the development version
 ```
 npm run serve ./testDirectory
+or
+npm run serve ~/Desktop/ ./
+
 ```
 You can put multiple directories back to back as arguments. I added a simple testDirectory in the project for demonstration. You can also pass no directories at all. 
 
