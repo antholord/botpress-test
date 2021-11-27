@@ -5,7 +5,7 @@
     </v-app-bar>
     <v-main>
       <v-container>
-        <tree-view/>
+        <DirectoryTreeList/>
       </v-container>
     </v-main>
   </v-app>
@@ -13,13 +13,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import TreeView from './components/TreeView.vue'
+import DirectoryTreeList from './components/DirectoryTreeList.vue'
 
 export default Vue.extend({
   name: 'App',
 
   components: {
-    TreeView
+    DirectoryTreeList
   }
 })
 </script>

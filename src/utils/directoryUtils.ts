@@ -11,8 +11,8 @@ export const normalizePath = (path: string): string => path.replaceAll('\\\\', '
 
 export const getCmdArgumentPaths = (): string[] | null => getResolvedPaths(process.argv.slice(2))
 
-export const getResolvedPaths = (paths: string[]) : string[] | null => {
-  if (paths.length === 0) return null
+export const getResolvedPaths = (paths: string[]) : string[] => {
+  if (paths.length === 0) return []
   return paths.map(path => normalizePath(resolve(resolveHomeDir(path))))
 }
 

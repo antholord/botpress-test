@@ -77,7 +77,7 @@ const getFilesInDirectory = async (path: string): Promise<DirectoryItem[] | null
       return file
     })
   } catch (e) {
-    // If we dont have permissions, or the path is not found, return null to signal the front end
+    // If we dont have permissions, or the path is not found, return null to tell the front end there was an error
     return null
   }
 }

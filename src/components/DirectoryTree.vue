@@ -27,14 +27,15 @@ export default class PathTreeView extends Vue {
     isError = false;
     created (): void {
       this.$electron.ipcRenderer.on('directory-updated', (_, path: string, directoryName: string, newChildren: DirectoryItem[]) => {
-        // Check if
+        // A directory was updated. We need to find which one it was in our tree of directories.
         if (path === this.rootPath && newChildren) {
           // If the updated directory was at the root, do the replacement
           if (this.treeItems[0].path === directoryName) {
             this.copyAlreadyLoadedChildren(newChildren, this.treeItems[0].children ?? [])
             Vue.set(this.treeItems, 0, { ...this.treeItems[0], children: newChildren })
-            // this.treeItems = [{ path: this.rootPath, name: this.rootPath, type: 'directory', children: newChildren }]
           } else {
+            // Otherwhise, recursively explore our directory tree until we find the one that was replaced.
+            // If it was not expanded, we don't need to do anything.
             this.replaceDirectory(this.treeItems[0].children, directoryName, newChildren)
           }
         }
@@ -43,14 +44,13 @@ export default class PathTreeView extends Vue {
         .then((directoryTree: DirectoryItem[]) => {
           if (directoryTree) {
             this.treeItems = [{ path: this.rootPath, name: this.rootPath, type: 'directory', children: directoryTree }]
-            console.log(this.treeItems)
-          } else {
-            this.isError = true
           }
+          this.isError = directoryTree === null
         })
     }
 
     async loadChildren (item: DirectoryItem) : Promise<void> {
+      // When a directory is clicked, we dynamically load the children
       return this.$electron.ipcRenderer.invoke('get-files-in-directory', this.rootPath, item.path).then((directoryItems: DirectoryItem[]) => {
         if (item.children && directoryItems && directoryItems.length > 0) {
           item.children.push(...directoryItems)
@@ -62,9 +62,8 @@ export default class PathTreeView extends Vue {
       // look for the directory to replace in this level of children
       for (let i = 0; i < children.length; i++) {
         const item = children[i]
-        console.log(directory)
-        console.log(item.path)
         if (item.path === directory) {
+          // If the directory we are replacing had expanded children, we want to copy those over to the new directory, to keep the expanded structure intact
           if (item.children) {
             this.copyAlreadyLoadedChildren(newDirectory, item.children)
           }
@@ -72,14 +71,13 @@ export default class PathTreeView extends Vue {
           item.children = newDirectory
           return
         } else if (directory.includes(item.path)) {
+          // The replaced directory was not found at this tree level, so we go down a level
           return this.replaceDirectory(item.children, directory, newDirectory)
         }
       }
-
-      // If it was not found in this level, we must find the children that match and go down to its level
     }
 
-    copyAlreadyLoadedChildren (children: DirectoryItem[], oldChildren: DirectoryItem[]) : void{
+    copyAlreadyLoadedChildren (children: DirectoryItem[], oldChildren: DirectoryItem[]) : void {
       for (const item of oldChildren) {
         if (item.children && item.children.length > 0) {
           const matchingNewItem = children.find(c => c.path === item.path)
