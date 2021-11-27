@@ -11,7 +11,7 @@ const readdir = util.promisify(fs.readdir)
 
 // each root path will have its own file watcher, to separate events per root path better.
 const watchers: Record<string, FSWatcher> = {}
-// each rootPath will be its own category. Root paths can be added dynamically.
+// each root path will be its own category. Root paths can be added dynamically.
 let rootPaths: string[] | null = []
 
 export const SetupEvents = () : void => {
@@ -19,7 +19,7 @@ export const SetupEvents = () : void => {
   ipcMain.on('get-paths', (e) => {
     e.returnValue = rootPaths
   })
-  ipcMain.handle('get-files-in-directory', async (e, rootPath:string, path: string) => {
+  ipcMain.handle('get-files-in-directory', async (_, rootPath:string, path: string) => {
     // Each time the client opens a directory, we give them the contents and we start watching the directory for updates.
     watchDirectory(rootPath, path)
     return await getFilesInDirectory(path)
