@@ -1,6 +1,12 @@
 <template>
   <div v-if="!isError">
-    <v-treeview :items="treeItems" open-on-click item-key="path" :load-children="loadChildren">
+    <v-treeview
+      :items="treeItems"
+      :load-children="loadChildren"
+      dense
+      open-on-click
+      item-key="path"
+    >
         <template v-slot:prepend="{ item, open }">
             <v-icon v-if="item.type === 'directory'">
                 {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
@@ -21,7 +27,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { DirectoryItem } from '../models/directory'
 
 @Component
-export default class PathTreeView extends Vue {
+export default class DirectoryTree extends Vue {
     @Prop(String) readonly rootPath!: string
 
     treeItems: DirectoryItem[] = []
@@ -92,5 +98,8 @@ export default class PathTreeView extends Vue {
 <style>
 .v-treeview-node__label {
   opacity: 0.8
+}
+.v-treeview-node--click>.v-treeview-node__root, .v-treeview-node--click>.v-treeview-node__root>.v-treeview-node__content>* {
+  cursor: default;
 }
 </style>

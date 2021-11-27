@@ -29,7 +29,7 @@ import DirectoryTree from './DirectoryTree.vue'
     DirectoryTree
   }
 })
-export default class TreeView extends Vue {
+export default class DirectoryTreeList extends Vue {
   paths: string[] | null = []
 
   get isError (): boolean { return this.paths === null }
