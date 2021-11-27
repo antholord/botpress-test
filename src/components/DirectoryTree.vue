@@ -23,8 +23,8 @@ export default class PathTreeView extends Vue {
     @Prop(String) readonly rootPath!: string
 
     treeItems: DirectoryItem[] = []
-
     isError = false;
+
     created (): void {
       this.$electron.ipcRenderer.on('directory-updated', (_, path: string, directoryName: string, newChildren: DirectoryItem[]) => {
         // A directory was updated. We need to find which one it was in our tree of directories.
@@ -89,3 +89,9 @@ export default class PathTreeView extends Vue {
     }
 }
 </script>
+
+<style>
+.v-treeview-node__label {
+  opacity: 0.85
+}
+</style>
