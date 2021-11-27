@@ -13,6 +13,7 @@ module.exports = {
       builderOptions: {
         publish: ['github'],
         productName: 'Botpress File Browser Test',
+        npmRebuild: false,
         nsis: {
           oneClick: false,
           allowToChangeInstallationDirectory: true
