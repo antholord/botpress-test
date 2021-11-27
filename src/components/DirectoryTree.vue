@@ -92,6 +92,6 @@ export default class PathTreeView extends Vue {
 
 <style>
 .v-treeview-node__label {
-  opacity: 0.85
+  opacity: 0.8
 }
 </style>

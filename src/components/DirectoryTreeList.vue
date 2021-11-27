@@ -79,6 +79,10 @@ export default class TreeView extends Vue {
   padding-top:20px;
 }
 
+.wrapper > .row {
+  display: block;
+}
+
 h3 {
   margin-top: 4px
 }
