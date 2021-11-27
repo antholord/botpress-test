@@ -31,7 +31,7 @@ If the directory has spaces in it, add '' between. ex: (npm run serve 'C:/s p a 
 ## Run as a stand-alone application
 ```
 npm run build
-launch ./dist_electron/botpress-test.exe
-or install it by launching ./dist_electron/botpress-test Setup 0.1.0.exe
+launch ./dist_electron/Botpress File Browser Test 0.1.0.exe
+or install it by launching ./dist_electron/Botpress File Browser Test Setup 0.1.0.exe
 ```
 
