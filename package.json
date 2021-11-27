@@ -44,9 +44,6 @@
     "vue-cli-plugin-vuetify": "~2.4.4",
     "vue-template-compiler": "^2.6.11"
   },
-  "optionalDependencies": {
-    "fsevents": "^1.2.13"
-  },
   "eslintConfig": {
     "root": true,
     "env": {
