@@ -1,6 +1,11 @@
 module.exports = {
   chainWebpack: config => {
     config.externals({ fsevents: "require('fsevents')" })
+    config.module.rule('node')
+      .test(/.node$/)
+      .use('node-loader')
+      .loader('node-loader')
+      .end()
   },
   pluginOptions: {
     electronBuilder: {
