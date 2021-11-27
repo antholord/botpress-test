@@ -12,23 +12,15 @@
   "dependencies": {
     "@mdi/font": "5.9.55",
     "chokidar": "^3.5.2",
-    "debounce": "^1.2.1",
-    "directory-tree": "^3.0.1",
-    "lodash": "^4.17.21",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-electron": "^1.0.6",
-    "vue-nonreactive": "^0.1.0",
     "vue-property-decorator": "^9.1.2",
-    "vuejs-tree": "^3.0.1",
     "vuetify": "^2.4.0"
   },
   "devDependencies": {
-    "@types/debounce": "^1.2.1",
     "@types/electron-devtools-installer": "^2.2.0",
-    "@types/jest": "^24.0.19",
-    "@types/lodash": "^4.14.177",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-e2e-cypress": "~4.5.0",

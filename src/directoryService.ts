@@ -9,8 +9,9 @@ import { getCmdArgumentPaths, getResolvedPaths, isPathADirectory, normalizePath 
 
 const readdir = util.promisify(fs.readdir)
 
+// each root path will have its own file watcher, to separate events per root path better.
 const watchers: Record<string, FSWatcher> = {}
-
+// each rootPath will be its own category. Root paths can be added dynamically.
 let rootPaths: string[] | null = []
 
 export const SetupEvents = () : void => {
@@ -19,6 +20,7 @@ export const SetupEvents = () : void => {
     e.returnValue = rootPaths
   })
   ipcMain.handle('get-files-in-directory', async (e, rootPath:string, path: string) => {
+    // Each time the client opens a directory, we give them the contents and we start watching the directory for updates.
     watchDirectory(rootPath, path)
     return await getFilesInDirectory(path)
   })
@@ -27,6 +29,7 @@ export const SetupEvents = () : void => {
     if (!paths || paths.length === 0) return
     const resolvedPaths = getResolvedPaths(paths)
     if (!resolvedPaths) return
+    if (!rootPaths) rootPaths = []
 
     for (const rootPath of resolvedPaths) {
       if (rootPaths?.findIndex(p => p === rootPath) === -1) {
@@ -51,28 +54,6 @@ const watchDirectory = (rootPath: string, path: string): void => {
     watchers[rootPath].add(path)
   }
 }
-
-// export const ProcessDirectories = (window: BrowserWindow): void => {
-//   const paths = getResolvedPaths()
-//   if (!paths) return
-//   let watchersReady = 0
-//   for (const path of paths) {
-//     const watcher = chokidar.watch(path, { ignoreInitial: true, awaitWriteFinish: true, depth: 20 })
-
-//     watcher.on('ready', () => {
-//       watchersReady++
-//       if (watchersReady === paths.length) {
-//         window.webContents.send('watcher-ready')
-//       }
-//       watcher.on('all', async (_, updatedPath: string) => {
-//         // eslint-disable-next-line no-useless-escape
-//         const dirName = normalizePath(updatedPath.match(/(.*)[\/\\]/)![1] || '')
-//         const files = await getFilesInDirectory(dirName)
-//         window.webContents.send('directory-updated', path, dirName, files)
-//       })
-//     })
-//   }
-// }
 
 const getFilesInDirectory = async (path: string): Promise<DirectoryItem[] | null> => {
   try {

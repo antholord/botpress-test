@@ -1,19 +1,17 @@
 <template>
   <div class="container">
-    <div v-if="isError">
-      <h3>Please provide valid file paths as param</h3>
-    </div>
-    <div>
+    <v-row>
       <v-btn icon color="green" @click="toggleDialog" title="Add new directory">
         <v-icon>mdi-folder-plus</v-icon>
       </v-btn>
-    </div>
-    <div v-if="!isError && paths != null">
+      <h3 v-if="!paths || paths.length === 0">Click the icon to add directories</h3>
+    </v-row>
+    <v-row v-if="!isError && paths != null">
       <h2 v-if="paths.length === 0">Loading directories...</h2>
       <div  v-for="path in paths" :key="path">
         <path-tree-view :rootPath="path" />
       </div>
-    </div>
+    </v-row>
   </div>
 </template>
 
@@ -51,9 +49,7 @@ export default class TreeView extends Vue {
 
   loadPaths (): void {
     this.paths = this.$electron.ipcRenderer.sendSync('get-paths')
-    if (this.paths === null) {
-      this.isError = true
-    }
+    this.isError = this.paths === null
   }
 
   async processDialogResult (result: OpenDialogReturnValue): Promise<void> {
@@ -70,11 +66,11 @@ export default class TreeView extends Vue {
 </script>
 
 <style scoped>
-h2 {
-  margin: 40px;
-}
-
 .container {
   overflow: auto
+}
+
+h3 {
+  margin-top: 4px
 }
 </style>
