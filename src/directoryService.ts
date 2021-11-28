@@ -4,6 +4,7 @@ import { ipcMain } from 'electron'
 import { window } from './background'
 import fs from 'fs'
 import util from 'util'
+import _ from './models/lodashMixin'
 
 import { getCmdArgumentPaths, getResolvedPaths, isPathADirectory, normalizePath } from './utils/directoryUtils'
 
@@ -44,16 +45,21 @@ const watchDirectory = (rootPath: string, path: string): void => {
     watchers[rootPath] = chokidar.watch(path, { ignoreInitial: true, awaitWriteFinish: true, depth: 0 })
     watchers[rootPath].on('ready', () => {
       watchers[rootPath].on('all', async (_, updatedPath: string) => {
-        // eslint-disable-next-line no-useless-escape
-        const dirName = normalizePath(updatedPath.match(/(.*)[\/\\]/)![1] || '')
-        const files = await getFilesInDirectory(dirName)
-        window!.webContents.send('directory-updated', path, dirName, files)
+        const dirName = normalizePath(updatedPath.match(/(.*)[/\\]/)![1] || '')
+        throttledSendFilesToWindow(dirName, path)
       })
     })
   } else {
     watchers[rootPath].add(path)
   }
 }
+
+const sendFilesToWindow = async (dirName:string, path: string) => {
+  const files = await getFilesInDirectory(dirName)
+  window!.webContents.send('directory-updated', path, dirName, files)
+}
+
+const throttledSendFilesToWindow = _.memoizedThrottle(sendFilesToWindow, 1500)
 
 const getFilesInDirectory = async (path: string): Promise<DirectoryItem[] | null> => {
   try {

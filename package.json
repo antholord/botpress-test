@@ -13,6 +13,7 @@
   "dependencies": {
     "@mdi/font": "5.9.55",
     "chokidar": "^3.5.2",
+    "lodash": "^4.17.21",
     "node-loader": "^2.0.0",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
@@ -22,8 +23,8 @@
     "vuetify": "^2.4.0"
   },
   "devDependencies": {
-    "electron-builder": "~22.10.5",
     "@types/electron-devtools-installer": "^2.2.0",
+    "@types/lodash": "^4.14.177",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
@@ -32,6 +33,7 @@
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/eslint-config-typescript": "^7.0.0",
     "electron": "^13.0.0",
+    "electron-builder": "~22.10.5",
     "electron-devtools-installer": "^3.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
@@ -59,7 +61,10 @@
     },
     "rules": {
       "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-non-null-assertion": "off"
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/ban-types": "off",
+      "@eslint/no-useless-escape": "off"
     },
     "overrides": [
       {

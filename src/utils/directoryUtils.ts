@@ -1,6 +1,7 @@
 import fs from 'fs'
 import { resolve, join } from 'path'
 import { homedir } from 'os'
+
 export const isPathADirectory = (path: string): boolean => {
   try {
     return fs.statSync(path).isDirectory()
